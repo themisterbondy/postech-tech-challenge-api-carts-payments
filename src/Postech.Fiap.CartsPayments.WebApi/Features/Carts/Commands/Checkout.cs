@@ -39,7 +39,7 @@ public class Checkout
 
             if (cart.PaymentStatus != PaymentStatus.NotStarted)
                 return Result.Failure<CheckoutResponse>(Error.Failure("FakeCheckout.Handler",
-                    "Cart has already been checked out."));
+                    "Cart has already been checked out. transactionId: " + cart.TransactionId));
 
             var totalAmount = cart.Items.Sum(item => item.UnitPrice * item.Quantity);
 
