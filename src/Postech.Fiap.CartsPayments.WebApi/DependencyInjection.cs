@@ -44,6 +44,7 @@ public static class DependencyInjection
 
         services.AddProblemDetails();
         services.AddCarter();
+        services.AddJsonOptions();
 
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("SQLConnection")));
@@ -137,5 +138,18 @@ public static class DependencyInjection
 
         builder.Logging.ClearProviders();
         builder.Host.UseSerilog(Log.Logger, true);
+    }
+
+    private static void AddJsonOptions(this IServiceCollection services)
+    {
+        services.ConfigureHttpJsonOptions(options =>
+        {
+            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
+
+        services.Configure<JsonOptions>(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
     }
 }

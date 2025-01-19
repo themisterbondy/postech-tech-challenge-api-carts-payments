@@ -46,7 +46,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Persistence\Configurations\" />
+      <_ContentIncludedByDefault Remove="Features\Products\Mock\productsMock.json" />
     </ItemGroup>
 
 </Project>

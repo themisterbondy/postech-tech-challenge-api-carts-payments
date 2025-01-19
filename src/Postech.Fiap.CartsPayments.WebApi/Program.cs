@@ -9,8 +9,8 @@ var configuration = AppSettings.Configuration();
 builder.Services.AddWebApi(configuration);
 builder.Services.AddSerilogConfiguration(builder, configuration);
 
-
 var app = builder.Build();
+app.ApplyMigrations();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.MapOpenApi();
@@ -22,8 +22,5 @@ app.UseMiddleware<RequestContextLoggingMiddleware>();
 app.MapCarter();
 app.Run();
 
-namespace Postech.Fiap.CartsPayments.WebApi
-{
-    [ExcludeFromCodeCoverage]
-    public partial class Program;
-}
+[ExcludeFromCodeCoverage]
+public partial class Program;
