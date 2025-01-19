@@ -112,5 +112,37 @@
       "category": "Bebida",
       "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$zPoYZbnv/200/200/original?country=br"
     }
+  ],
+  "customers":[
+    {
+      "id": "d3c5d567-8a2b-4bfc-b837-6d2c3b4a00a1",
+      "name": "Carlos Silva",
+      "email": "carlos.silva@example.com",
+      "cpf": "123.456.789-01"
+    },
+    {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "name": "Maria Oliveira",
+      "email": "maria.oliveira@example.com",
+      "cpf": "987.654.321-00"
+    },
+    {
+      "id": "b9c8d7e6-f5a4-3210-bacd-ef9876543210",
+      "name": "João Souza",
+      "email": "joao.souza@example.com",
+      "cpf": "111.222.333-44"
+    },
+    {
+      "id": "c1d2e3f4-a5b6-7890-cdef-0123456789ab",
+      "name": "Ana Lima",
+      "email": "ana.lima@example.com",
+      "cpf": "555.666.777-88"
+    },
+    {
+      "id": "e6f7a8b9-c0d1-2345-bace-1234567890ab",
+      "name": "Pedro Santos",
+      "email": "pedro.santos@example.com",
+      "cpf": "999.888.777-66"
+    }
   ]
 }
