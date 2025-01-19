@@ -44,11 +44,11 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("SQLConnection")));
 
-        // services.AddScoped<IProductRepository, ProductRepository>();
-        // services.AddScoped<IOrderQueueRepository, OrderQueueRepository>();
-        // services.AddScoped<ICartRepository, CartRepository>();
-        // services.AddScoped<ICartService, CartService>();
-        // services.AddScoped<IPaymentService, PaymentService>();
+        services.AddScoped<IProductRepository, ProductRepository>();
+        services.AddScoped<IOrderQueueRepository, OrderQueueRepository>();
+        services.AddScoped<ICartRepository, CartRepository>();
+        services.AddScoped<ICartService, CartService>();
+        services.AddScoped<IPaymentService, PaymentService>();
 
 
         return services;

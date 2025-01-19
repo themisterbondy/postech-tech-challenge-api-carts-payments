@@ -17,8 +17,7 @@ public class CartEndpoints : ICarterModule
                 var command = new AddItensToCart.Command
                 {
                     CustomerId = request.CustomerId,
-                    ProductId = request.ProductId,
-                    Quantity = request.Quantity
+                    Items = request.Items
                 };
 
                 var result = await sender.Send(command);

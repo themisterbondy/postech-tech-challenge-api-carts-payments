@@ -7,34 +7,41 @@ namespace Postech.Fiap.CartsPayments.WebApi.Features.Carts.Services;
 
 public class CartService(ICartRepository cartRepository) : ICartService
 {
-    public async Task<CartResponse> AddToCartAsync(string? customerId, CartItemDto cartItem, Product product)
+    public async Task<CartResponse> AddToCartAsync(string? customerId, List<CartItemDto> cartItems)
     {
         var customer = customerId ?? Guid.NewGuid().ToString();
         var cart = await cartRepository.GetByCustomerIdAsync(customerId) ?? Cart.Create(CartId.New(), customer);
 
-        var existingItem = cart.Items.FirstOrDefault(i => i.ProductId == new ProductId(cartItem.ProductId));
-        if (existingItem != null)
+        foreach (var cartItem in cartItems)
         {
-            existingItem.Quantity += cartItem.Quantity;
+            var existingItem = cart.Items.FirstOrDefault(i => i.ProductId == new ProductId(cartItem.ProductId));
+            if (existingItem != null)
+            {
+                existingItem.Quantity += cartItem.Quantity;
+            }
+            else
+            {
+
+
+                var newItem = CartItem.Create(
+                    CartItemId.New(),
+                    new ProductId(cartItem.ProductId),
+                    cartItem.ProductName,
+                    cartItem.UnitPrice,
+                    cartItem.Quantity,
+                    cartItem.Category);
+                newItem.CartId = cart.Id;
+                cart.AddItem(newItem);
+            }
         }
-        else
-        {
-            var newItem = CartItem.Create(
-                CartItemId.New(),
-                new ProductId(cartItem.ProductId),
-                cartItem.ProductName,
-                cartItem.UnitPrice,
-                cartItem.Quantity,
-                product.Category);
-            newItem.CartId = cart.Id;
-            cart.AddItem(newItem);
-        }
+
         if (await cartRepository.ExistsAsync(cart.Id))
             await cartRepository.UpdateAsync(cart);
         else
             await cartRepository.AddAsync(cart);
 
         var totalAmount = cart.Items.Sum(item => item.UnitPrice * item.Quantity);
+
         return new CartResponse
         {
             CartId = cart.Id.Value,
