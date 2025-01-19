@@ -7,7 +7,7 @@ namespace Postech.Fiap.CartsPayments.WebApi.Features.Carts.Repositories;
 
 public class CartRepository(ApplicationDbContext context) : ICartRepository
 {
-    public async Task<Cart?> GetByCustomerIdAsync(string customerId)
+    public async Task<Cart?> GetByCustomerIdAsync(Guid customerId)
     {
         return await context.Carts
             .AsNoTracking()

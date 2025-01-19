@@ -5,8 +5,8 @@ namespace Postech.Fiap.CartsPayments.WebApi.Features.Carts.Services;
 
 public interface ICartService
 {
-    Task<CartResponse> AddToCartAsync(string? customerId, List<CartItemDto> cartItems);
-    Task<CartResponse> GetCartByCustomerIdAsync(string customerId);
-    Task<CartResponse> RemoveFromCartAsync(string customerId, Guid productId);
+    Task<CartResponse> AddToCartAsync(Guid customerId, List<CartItemDto> cartItems);
+    Task<CartResponse> GetCartByCustomerIdAsync(Guid customerId);
+    Task<CartResponse> RemoveFromCartAsync(Guid customerId, Guid productId);
     Task<CartResponse> ClearCartAsync(Guid cartId);
 }

@@ -10,7 +10,7 @@ public abstract class AddItensToCart
 {
     public class Command : IRequest<Result<CartResponse>>
     {
-        public string CustomerId { get; set; }
+        public Guid CustomerId { get; set; }
         public List<CartItemRequest> Items { get; set; }
     }
 
@@ -18,15 +18,10 @@ public abstract class AddItensToCart
     {
         public AddToCartValidator()
         {
-            When(x => !string.IsNullOrEmpty(x.CustomerId),
-                () =>
-                {
-                    RuleFor(x => x.CustomerId)
-                        .NotEmpty().WithError(Error.Validation("CPF", "CPF is required."))
-                        .Matches("^[0-9]*$").WithError(Error.Validation("CPF", "CPF must contain only numbers."))
-                        .Length(11).WithError(Error.Validation("CPF", "CPF must have 11 characters."))
-                        .Must(GlobalValidations.BeAValidCpf).WithMessage("CPF is invalid.");
-                });
+            RuleFor(x => x.CustomerId)
+                .NotEmpty().WithError(Error.Validation("CustomerId", "CustomerId is required."))
+                .Must(id => Guid.TryParse(id.ToString(), out _))
+                .WithError(Error.Validation("CustomerId", "CustomerId must be a valid GUID."));
 
             RuleForEach(x => x.Items).ChildRules(items =>
             {
@@ -55,7 +50,7 @@ public abstract class AddItensToCart
 
                 cartItems.Add(new CartItemDto
                 {
-                    ProductId =  product.Value.Id,
+                    ProductId = product.Value.Id,
                     ProductName = product.Value.Name,
                     UnitPrice = product.Value.Price,
                     Quantity = item.Quantity,

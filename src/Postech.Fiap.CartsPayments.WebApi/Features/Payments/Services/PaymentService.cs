@@ -60,7 +60,7 @@ public class PaymentService(
                 OrderItem.Create(OrderItemId.New(), orderId, cartItem.ProductId, cartItem.ProductName,
                     cartItem.UnitPrice, cartItem.Quantity, cartItem.Category)).ToList();
 
-            var orderQueue = OrderQueue.Create(orderId, IsAnonymousCustomer(cart.CustomerId), orderItems,
+            var orderQueue = OrderQueue.Create(orderId, cart.CustomerId, orderItems,
                 notification.TransactionId, OrderQueueStatus.Received);
 
             await orderQueueRepository.AddAsync(orderQueue, CancellationToken.None);
@@ -74,13 +74,5 @@ public class PaymentService(
         }
 
         return Result.Success();
-    }
-
-
-    private static string? IsAnonymousCustomer(string customerId)
-    {
-        return Guid.TryParse(customerId, out _)
-            ? null
-            : customerId;
     }
 }

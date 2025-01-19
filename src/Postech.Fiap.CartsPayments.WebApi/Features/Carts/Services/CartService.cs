@@ -7,10 +7,9 @@ namespace Postech.Fiap.CartsPayments.WebApi.Features.Carts.Services;
 
 public class CartService(ICartRepository cartRepository) : ICartService
 {
-    public async Task<CartResponse> AddToCartAsync(string? customerId, List<CartItemDto> cartItems)
+    public async Task<CartResponse> AddToCartAsync(Guid customerId, List<CartItemDto> cartItems)
     {
-        var customer = customerId ?? Guid.NewGuid().ToString();
-        var cart = await cartRepository.GetByCustomerIdAsync(customerId) ?? Cart.Create(CartId.New(), customer);
+        var cart = await cartRepository.GetByCustomerIdAsync(customerId);
 
         foreach (var cartItem in cartItems)
         {
@@ -58,7 +57,7 @@ public class CartService(ICartRepository cartRepository) : ICartService
         };
     }
 
-    public async Task<CartResponse> GetCartByCustomerIdAsync(string customerId)
+    public async Task<CartResponse> GetCartByCustomerIdAsync(Guid customerId)
     {
         var cart = await cartRepository.GetByCustomerIdAsync(customerId);
         if (cart == null) return null;
@@ -77,7 +76,7 @@ public class CartService(ICartRepository cartRepository) : ICartService
         };
     }
 
-    public async Task<CartResponse> RemoveFromCartAsync(string customerId, Guid productId)
+    public async Task<CartResponse> RemoveFromCartAsync(Guid customerId, Guid productId)
     {
         var cart = await cartRepository.GetByCustomerIdAsync(customerId);
         if (cart == null) return null;

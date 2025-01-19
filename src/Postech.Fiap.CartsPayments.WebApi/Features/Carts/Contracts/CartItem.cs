@@ -5,7 +5,7 @@ namespace Postech.Fiap.CartsPayments.WebApi.Features.Carts.Contracts;
 
 public class CartRequest
 {
-    public string? CustomerId { get; set; }
+    public Guid CustomerId { get; set; }
     public List<CartItemRequest> Items { get; set; }
 }
 
@@ -28,7 +28,7 @@ public class CartItemDto
 public class CartResponse
 {
     public Guid CartId { get; set; }
-    public string CustomerId { get; set; }
+    public Guid CustomerId { get; set; }
     public List<CartItemDto> Items { get; set; }
     public decimal TotalAmount { get; set; }
     public PaymentStatus PaymentStatus { get; set; }

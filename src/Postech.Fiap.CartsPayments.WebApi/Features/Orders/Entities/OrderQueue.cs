@@ -2,7 +2,7 @@ namespace Postech.Fiap.CartsPayments.WebApi.Features.Orders.Entities;
 
 public class OrderQueue
 {
-    private OrderQueue(OrderId id, string? customerId, List<OrderItem> items, string transactionId,
+    private OrderQueue(OrderId id, Guid customerId, List<OrderItem> items, string transactionId,
         OrderQueueStatus status)
     {
         Id = id;
@@ -19,12 +19,12 @@ public class OrderQueue
     public OrderId Id { get; set; }
     public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
     public OrderQueueStatus Status { get; set; }
-    public string? CustomerId { get; set; }
+    public Guid CustomerId { get; set; }
     public List<OrderItem> Items { get; set; }
 
     public string? TransactionId { get; set; }
 
-    public static OrderQueue Create(OrderId orderId, string? customerCpf, List<OrderItem> orderItems,
+    public static OrderQueue Create(OrderId orderId, Guid customerCpf, List<OrderItem> orderItems,
         string transactionId,
         OrderQueueStatus status)
     {

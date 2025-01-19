@@ -4,7 +4,7 @@ namespace Postech.Fiap.CartsPayments.WebApi.Features.Carts.Entities;
 
 public class Cart
 {
-    private Cart(CartId id, string customerId)
+    private Cart(CartId id, Guid customerId)
     {
         Id = id;
         CustomerId = customerId;
@@ -13,13 +13,13 @@ public class Cart
     }
 
     public CartId Id { get; init; }
-    public string CustomerId { get; set; }
+    public Guid CustomerId { get; set; }
     public DateTime CreatedAt { get; set; }
     public List<CartItem> Items { get; init; } = [];
     public PaymentStatus PaymentStatus { get; set; }
     public string? TransactionId { get; set; }
 
-    public static Cart Create(CartId id, string customerId)
+    public static Cart Create(CartId id, Guid customerId)
     {
         return new Cart(id, customerId);
     }
