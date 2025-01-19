@@ -1,41 +1,29 @@
-var builder = WebApplication.CreateBuilder(args);
+using Postech.Fiap.CartsPayments.WebApi;
+using Postech.Fiap.CartsPayments.WebApi.Common;
+using Postech.Fiap.CartsPayments.WebApi.Common.Middleware;
+using Postech.Fiap.CartsPayments.WebApi.Settings;
+using Serilog;
 
-// Add services to the container.
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+var builder = WebApplication.CreateBuilder(args);
+var configuration = AppSettings.Configuration();
+builder.Services.AddWebApi(configuration);
+builder.Services.AddSerilogConfiguration(builder, configuration);
+
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
-
+app.UseSwagger();
+app.UseSwaggerUI();
+app.MapOpenApi();
 app.UseHttpsRedirection();
-
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast");
-
+app.UseHealthChecksConfiguration();
+app.UseExceptionHandler();
+app.UseSerilogRequestLogging();
+app.UseMiddleware<RequestContextLoggingMiddleware>();
+app.MapCarter();
 app.Run();
 
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
+namespace Postech.Fiap.CartsPayments.WebApi
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    [ExcludeFromCodeCoverage]
+    public partial class Program;
 }

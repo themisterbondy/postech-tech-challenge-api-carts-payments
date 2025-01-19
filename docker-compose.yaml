@@ -18,8 +18,8 @@ services:
     networks:
       - myfood-network
     ports:
-      - "5095:80"
-      - "7031:443"
+      - "5011:80"
+      - "7107:443"
     volumes:
       - '$USERPROFILE\.aspnet\https:/https/'
     depends_on:
