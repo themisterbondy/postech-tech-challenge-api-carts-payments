@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5E0CC31B-7194-4405-AC4D-1862744B7FEA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{94D3430B-352A-421F-84A5-C1851DE87823}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postech.Fiap.CartsPayments.WebApi", "src\Postech.Fiap.CartsPayments.WebApi\Postech.Fiap.CartsPayments.WebApi.csproj", "{E632185B-8985-42F0-815D-3810985FA36C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7E10260E-2736-436A-BBFE-DB307494BFA3}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yaml = docker-compose.yaml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E632185B-8985-42F0-815D-3810985FA36C} = {5E0CC31B-7194-4405-AC4D-1862744B7FEA}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E632185B-8985-42F0-815D-3810985FA36C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E632185B-8985-42F0-815D-3810985FA36C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E632185B-8985-42F0-815D-3810985FA36C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E632185B-8985-42F0-815D-3810985FA36C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

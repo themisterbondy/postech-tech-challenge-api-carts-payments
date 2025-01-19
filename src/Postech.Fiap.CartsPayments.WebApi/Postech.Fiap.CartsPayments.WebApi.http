@@ -1,0 +1,6 @@
+@Postech.Fiap.CartsPayments.WebApi_HostAddress = http://localhost:5011
+
+GET {{Postech.Fiap.CartsPayments.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
