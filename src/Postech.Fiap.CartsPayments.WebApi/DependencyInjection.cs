@@ -1,6 +1,9 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
@@ -10,8 +13,9 @@ using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Repositories;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Services;
 using Postech.Fiap.CartsPayments.WebApi.Features.Orders.Repositories;
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Services;
-using Postech.Fiap.CartsPayments.WebApi.Features.Products.Repositories;
+using Postech.Fiap.CartsPayments.WebApi.Features.Products.Services;
 using Postech.Fiap.CartsPayments.WebApi.Persistence;
+using Postech.Fiap.CartsPayments.WebApi.Settings;
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
@@ -44,14 +48,33 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(configuration.GetConnectionString("SQLConnection")));
 
-        services.AddScoped<IProductRepository, ProductRepository>();
+
         services.AddScoped<IOrderQueueRepository, OrderQueueRepository>();
         services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<ICartService, CartService>();
         services.AddScoped<IPaymentService, PaymentService>();
 
+        services.AddProductsHttpClient(configuration);
+
 
         return services;
+    }
+
+    private static void AddProductsHttpClient(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<IProductHttpClient, ProductHttpClient>();
+
+        services.AddOptions<MyFoodProductsHttpClientSettings>()
+            .Bind(configuration.GetSection(MyFoodProductsHttpClientSettings.SettingsKey))
+            .ValidateDataAnnotations()
+            .ValidateOnStart();
+
+        services.AddHttpClient(MyFoodProductsHttpClientSettings.ClientName, (serviceProvider, httpClient) =>
+        {
+            var settings = serviceProvider.GetRequiredService<IOptions<MyFoodProductsHttpClientSettings>>().Value;
+            httpClient.BaseAddress = new Uri(settings.BaseUrl);
+            httpClient.Timeout = TimeSpan.FromMinutes(5);
+        });
     }
 
     private static void AddMediatRConfiguration(this IServiceCollection services)

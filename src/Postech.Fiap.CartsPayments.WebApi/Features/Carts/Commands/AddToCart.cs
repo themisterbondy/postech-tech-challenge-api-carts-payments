@@ -2,11 +2,11 @@ using FluentValidation;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Contracts;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Services;
 using Postech.Fiap.CartsPayments.WebApi.Features.Products.Entities;
-using Postech.Fiap.CartsPayments.WebApi.Features.Products.Repositories;
+using Postech.Fiap.CartsPayments.WebApi.Features.Products.Services;
 
 namespace Postech.Fiap.CartsPayments.WebApi.Features.Carts.Commands;
 
-public class AddItensToCart
+public abstract class AddItensToCart
 {
     public class Command : IRequest<Result<CartResponse>>
     {
@@ -39,7 +39,7 @@ public class AddItensToCart
         }
     }
 
-    public class Handler(ICartService cartService, IProductRepository productRepository)
+    public class Handler(ICartService cartService, IProductHttpClient productHttpClient)
         : IRequestHandler<Command, Result<CartResponse>>
     {
         public async Task<Result<CartResponse>> Handle(Command request, CancellationToken cancellationToken)
@@ -48,21 +48,18 @@ public class AddItensToCart
 
             foreach (var item in request.Items)
             {
-                var product = await productRepository.FindByIdAsync(new ProductId(item.ProductId), cancellationToken);
+                var product = await productHttpClient.FindByIdAsync(new ProductId(item.ProductId), cancellationToken);
 
-                if (product == null)
-                {
-                    return Result.Failure<CartResponse>(Error.NotFound("AddToCart.Handler",
-                        $"Product with ID {item.ProductId} not found."));
-                }
+                if (product.IsFailure)
+                    return Result.Failure<CartResponse>(product.Error);
 
                 cartItems.Add(new CartItemDto
                 {
-                    ProductId = product.Id.Value,
-                    ProductName = product.Name,
-                    UnitPrice = product.Price,
+                    ProductId =  product.Value.Id,
+                    ProductName = product.Value.Name,
+                    UnitPrice = product.Value.Price,
                     Quantity = item.Quantity,
-                    Category = product.Category
+                    Category = product.Value.Category
                 });
             }
 
