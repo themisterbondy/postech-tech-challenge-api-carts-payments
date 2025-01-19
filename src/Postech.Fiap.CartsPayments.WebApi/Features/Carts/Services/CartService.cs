@@ -7,9 +7,9 @@ namespace Postech.Fiap.CartsPayments.WebApi.Features.Carts.Services;
 
 public class CartService(ICartRepository cartRepository) : ICartService
 {
-    public async Task<CartResponse> AddToCartAsync(Guid customerId, List<CartItemDto> cartItems)
+    public async Task<Result<CartResponse>> AddToCartAsync(Guid customerId, List<CartItemDto> cartItems)
     {
-        var cart = await cartRepository.GetByCustomerIdAsync(customerId);
+        var cart = await cartRepository.GetByCustomerIdAsync(customerId) ?? Cart.Create(CartId.New(), customerId);
 
         foreach (var cartItem in cartItems)
         {
@@ -20,8 +20,6 @@ public class CartService(ICartRepository cartRepository) : ICartService
             }
             else
             {
-
-
                 var newItem = CartItem.Create(
                     CartItemId.New(),
                     new ProductId(cartItem.ProductId),
@@ -52,7 +50,8 @@ public class CartService(ICartRepository cartRepository) : ICartService
                 ProductId = i.ProductId.Value,
                 ProductName = i.ProductName,
                 UnitPrice = i.UnitPrice,
-                Quantity = i.Quantity
+                Quantity = i.Quantity,
+                Category =  i.Category
             }).ToList()
         };
     }

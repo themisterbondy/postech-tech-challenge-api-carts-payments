@@ -58,7 +58,10 @@ public abstract class AddItensToCart
                 });
             }
 
-            return await cartService.AddToCartAsync(request.CustomerId, cartItems);
+            var cartServiceResult = await cartService.AddToCartAsync(request.CustomerId, cartItems);
+            return cartServiceResult.IsFailure
+                ? Result.Failure<CartResponse>(cartServiceResult.Error)
+                : Result.Success(cartServiceResult.Value);
         }
     }
 }
