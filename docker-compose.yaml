@@ -15,6 +15,9 @@ services:
       - 'DOTNET_USE_POLLING_FILE_WATCHER=true'
       - 'OTEL_EXPORTER_OTLP_ENDPOINT=http://myfood-seq:5341/ingest/otlp/v1/traces'
       - 'OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf'
+      - 'ConnectionStrings:SQLConnection=Host=postgres;Database=myfooddb-cartspayments;Username=myfooduser;Password=blueScreen@666'
+      - 'AzureStorageSettings:ConnectionString=UseDevelopmentStorage=true;DevelopmentStorageProxyUri=http://azurite;'
+      - 'MyFoodProductsHttpClientSettings:BaseUrl=http://host.docker.internal:3350'
     networks:
       - myfood-network
     ports:
@@ -61,6 +64,18 @@ services:
       - 3380:80
     networks:
       - myfood-network
+
+  json-server:
+    container_name: myfood-json-server
+    image: vimagick/json-server
+    command: /data/Mocks.json
+    ports:
+      - "3350:3000"
+    volumes:
+      - ./src/Postech.Fiap.CartsPayments.WebApi/JsonMocks/:/data
+    networks:
+      - myfood-network
+
 
 volumes:
   postgres-data:
