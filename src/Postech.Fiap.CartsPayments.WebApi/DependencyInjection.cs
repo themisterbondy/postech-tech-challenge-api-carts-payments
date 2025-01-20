@@ -11,6 +11,7 @@ using OpenTelemetry.Trace;
 using Postech.Fiap.CartsPayments.WebApi.Common;
 using Postech.Fiap.CartsPayments.WebApi.Common.Behavior;
 using Postech.Fiap.CartsPayments.WebApi.Common.Messaging;
+using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Jobs;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Repositories;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Services;
 using Postech.Fiap.CartsPayments.WebApi.Features.Messaging.Queues;
@@ -19,6 +20,8 @@ using Postech.Fiap.CartsPayments.WebApi.Features.Products.Services;
 using Postech.Fiap.CartsPayments.WebApi.Infrastructure.Queue;
 using Postech.Fiap.CartsPayments.WebApi.Persistence;
 using Postech.Fiap.CartsPayments.WebApi.Settings;
+using Quartz;
+using Quartz.AspNetCore;
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
@@ -65,6 +68,28 @@ public static class DependencyInjection
         services.AddSingleton(x => new QueueServiceClient(storageConnectionString));
         services.AddSingleton<IQueue, AzureQueueService>();
         services.AddSingleton<CreateOrderCommandSubmittedQueueClient>();
+        services.AddJobs();
+
+        return services;
+    }
+
+    private static IServiceCollection AddJobs(this IServiceCollection services)
+    {
+        services.AddQuartzServer(options => { options.WaitForJobsToComplete = true; });
+        services.AddQuartz(q =>
+        {
+            q.UseMicrosoftDependencyInjectionJobFactory();
+            var cartJobKey = new JobKey("CartCleanupJob");
+            q.AddJob<CartCleanupJob>(opts => opts.WithIdentity(cartJobKey));
+            q.AddTrigger(opts => opts
+                .ForJob(cartJobKey)
+                .WithIdentity("CartCleanupJob-trigger")
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInMinutes(5)
+                    .RepeatForever())
+                .StartAt(DateBuilder.FutureDate(5, IntervalUnit.Minute))
+            );
+        });
 
         return services;
     }
