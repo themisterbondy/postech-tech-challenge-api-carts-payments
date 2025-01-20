@@ -64,7 +64,7 @@ public static class DependencyInjection
         services.AddScoped(cfg => cfg.GetService<IOptions<AzureQueueSettings>>().Value);
         services.AddSingleton(x => new QueueServiceClient(storageConnectionString));
         services.AddSingleton<IQueue, AzureQueueService>();
-        services.AddSingleton<CreateOrderCommandSubmittedQueue>();
+        services.AddSingleton<CreateOrderCommandSubmittedQueueClient>();
 
         return services;
     }

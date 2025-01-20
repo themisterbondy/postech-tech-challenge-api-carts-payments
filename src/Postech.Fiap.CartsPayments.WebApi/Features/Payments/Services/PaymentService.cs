@@ -12,7 +12,7 @@ namespace Postech.Fiap.CartsPayments.WebApi.Features.Payments.Services;
 
 public class PaymentService(
     ICartRepository cartRepository,
-    CreateOrderCommandSubmittedQueue createOrderCommandSubmittedQueue,
+    CreateOrderCommandSubmittedQueueClient createOrderCommandSubmittedQueueClient,
     ICartService cartService) : IPaymentService
 {
     public async Task<Result<PaymentInitiationResponse>> InitiatePaymentAsync(Guid cartId, decimal amount)
@@ -68,7 +68,7 @@ public class PaymentService(
                 }).ToList(),
             };
 
-            createOrderCommandSubmittedQueue.PublishAsync(createOrderCommand, cancellationToken);
+            createOrderCommandSubmittedQueueClient.PublishAsync(createOrderCommand, cancellationToken);
 
             await cartService.ClearCartAsync(cart.Id.Value);
         }
