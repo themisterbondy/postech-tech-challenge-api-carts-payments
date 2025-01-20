@@ -39,6 +39,18 @@ services:
     networks:
       - myfood-network
 
+  azurite:
+    container_name: myfood-storage-account
+    image: mcr.microsoft.com/azure-storage/azurite
+    ports:
+      - "10000:10000" #blob service's port
+      - "10001:10001" #queue service's port
+      - "10002:10002" #table service's port
+    volumes:
+      - c:/azurite:/data
+    networks:
+      - myfood-network
+
   seq:
     container_name: myfood-seq
     image: datalust/seq:latest
@@ -52,6 +64,8 @@ services:
 
 volumes:
   postgres-data:
+  rabbitmq_data:
+  rabbitmq_logs:
 
 networks:
   myfood-network:

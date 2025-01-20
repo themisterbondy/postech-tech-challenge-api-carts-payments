@@ -1,5 +1,6 @@
 using System.Reflection;
 using System.Text.Json.Serialization;
+using Azure.Storage.Queues;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,11 +10,13 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Postech.Fiap.CartsPayments.WebApi.Common;
 using Postech.Fiap.CartsPayments.WebApi.Common.Behavior;
+using Postech.Fiap.CartsPayments.WebApi.Common.Messaging;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Repositories;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Services;
-using Postech.Fiap.CartsPayments.WebApi.Features.Orders.Repositories;
+using Postech.Fiap.CartsPayments.WebApi.Features.Messaging.Queues;
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Services;
 using Postech.Fiap.CartsPayments.WebApi.Features.Products.Services;
+using Postech.Fiap.CartsPayments.WebApi.Infrastructure.Queue;
 using Postech.Fiap.CartsPayments.WebApi.Persistence;
 using Postech.Fiap.CartsPayments.WebApi.Settings;
 using Serilog;
@@ -50,13 +53,18 @@ public static class DependencyInjection
             options.UseNpgsql(configuration.GetConnectionString("SQLConnection")));
 
 
-        services.AddScoped<IOrderQueueRepository, OrderQueueRepository>();
         services.AddScoped<ICartRepository, CartRepository>();
         services.AddScoped<ICartService, CartService>();
         services.AddScoped<IPaymentService, PaymentService>();
 
         services.AddProductsHttpClient(configuration);
 
+        var storageConnectionString = configuration.GetValue<string>("AzureStorageSettings:ConnectionString");
+        services.Configure<AzureQueueSettings>(configuration.GetSection("AzureQueueSettings"));
+        services.AddScoped(cfg => cfg.GetService<IOptions<AzureQueueSettings>>().Value);
+        services.AddSingleton(x => new QueueServiceClient(storageConnectionString));
+        services.AddSingleton<IQueue, AzureQueueService>();
+        services.AddSingleton<CreateOrderCommandSubmittedQueue>();
 
         return services;
     }
@@ -72,8 +80,9 @@ public static class DependencyInjection
 
         services.AddHttpClient(MyFoodProductsHttpClientSettings.ClientName, (serviceProvider, httpClient) =>
         {
-            var settings = serviceProvider.GetRequiredService<IOptions<MyFoodProductsHttpClientSettings>>().Value;
-            httpClient.BaseAddress = new Uri(settings.BaseUrl);
+            var httpClientSettings =
+                serviceProvider.GetRequiredService<IOptions<MyFoodProductsHttpClientSettings>>().Value;
+            httpClient.BaseAddress = new Uri(httpClientSettings.BaseUrl);
             httpClient.Timeout = TimeSpan.FromMinutes(5);
         });
     }
