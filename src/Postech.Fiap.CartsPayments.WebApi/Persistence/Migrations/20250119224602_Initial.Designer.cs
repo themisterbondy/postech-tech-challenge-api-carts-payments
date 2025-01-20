@@ -12,7 +12,7 @@ using Postech.Fiap.CartsPayments.WebApi.Persistence;
 namespace Postech.Fiap.CartsPayments.WebApi.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250119191346_Initial")]
+    [Migration("20250119224602_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -84,68 +84,6 @@ namespace Postech.Fiap.CartsPayments.WebApi.Persistence.Migrations
                     b.ToTable("CartItems", (string)null);
                 });
 
-            modelBuilder.Entity("Postech.Fiap.CartsPayments.WebApi.Features.Orders.Entities.OrderItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("uuid_generate_v4()");
-
-                    b.Property<string>("Category")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("ProductName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("UnitPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderItems", (string)null);
-                });
-
-            modelBuilder.Entity("Postech.Fiap.CartsPayments.WebApi.Features.Orders.Entities.OrderQueue", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasDefaultValueSql("uuid_generate_v4()");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("CustomerId")
-                        .HasMaxLength(11)
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("TransactionId")
-                        .HasMaxLength(36)
-                        .HasColumnType("character varying(36)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Orders", (string)null);
-                });
-
             modelBuilder.Entity("Postech.Fiap.CartsPayments.WebApi.Features.Carts.Entities.CartItem", b =>
                 {
                     b.HasOne("Postech.Fiap.CartsPayments.WebApi.Features.Carts.Entities.Cart", null)
@@ -155,21 +93,7 @@ namespace Postech.Fiap.CartsPayments.WebApi.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Postech.Fiap.CartsPayments.WebApi.Features.Orders.Entities.OrderItem", b =>
-                {
-                    b.HasOne("Postech.Fiap.CartsPayments.WebApi.Features.Orders.Entities.OrderQueue", null)
-                        .WithMany("Items")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Postech.Fiap.CartsPayments.WebApi.Features.Carts.Entities.Cart", b =>
-                {
-                    b.Navigation("Items");
-                });
-
-            modelBuilder.Entity("Postech.Fiap.CartsPayments.WebApi.Features.Orders.Entities.OrderQueue", b =>
                 {
                     b.Navigation("Items");
                 });

@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Entities;
 using Postech.Fiap.CartsPayments.WebApi.Features.Orders.Entities;
-using Postech.Fiap.CartsPayments.WebApi.Features.Products.Entities;
 
 namespace Postech.Fiap.CartsPayments.WebApi.Persistence;
 
@@ -12,8 +11,6 @@ public class ApplicationDbContext : DbContext
         : base(options)
     {
     }
-
-    public DbSet<OrderQueue> OrderQueue { get; set; }
 
     public DbSet<Cart> Carts { get; set; }
     public DbSet<CartItem> CartItems { get; set; }
