@@ -1,8 +1,9 @@
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Entities;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Repositories;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Services;
+using Postech.Fiap.CartsPayments.WebApi.Features.Messaging.Queues;
+using Postech.Fiap.CartsPayments.WebApi.Features.Orders.Contracts;
 using Postech.Fiap.CartsPayments.WebApi.Features.Orders.Entities;
-using Postech.Fiap.CartsPayments.WebApi.Features.Orders.Repositories;
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Contracts;
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Emun;
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Notifications;
@@ -11,7 +12,7 @@ namespace Postech.Fiap.CartsPayments.WebApi.Features.Payments.Services;
 
 public class PaymentService(
     ICartRepository cartRepository,
-    IOrderQueueRepository orderQueueRepository,
+    CreateOrderCommandSubmittedQueue createOrderCommandSubmittedQueue,
     ICartService cartService) : IPaymentService
 {
     public async Task<Result<PaymentInitiationResponse>> InitiatePaymentAsync(Guid cartId, decimal amount)
@@ -48,22 +49,26 @@ public class PaymentService(
             return Result.Failure(Error.Failure("PaymentService.ProcessPaymentNotificationAsync",
                 "Cart not found or already processed"));
 
-        var order = await orderQueueRepository.GetByTransactionIdAsync(notification.TransactionId, cancellationToken);
-        if (order != null)
-            return Result.Failure(Error.Failure("PaymentService.ProcessPaymentNotificationAsync",
-                "Order already exists for this transaction"));
-
         if (notification.Status == PaymentStatus.Accepted)
         {
             var orderId = OrderId.New();
-            var orderItems = cart.Items.Select(cartItem =>
-                OrderItem.Create(OrderItemId.New(), orderId, cartItem.ProductId, cartItem.ProductName,
-                    cartItem.UnitPrice, cartItem.Quantity, cartItem.Category)).ToList();
 
-            var orderQueue = OrderQueue.Create(orderId, cart.CustomerId, orderItems,
-                notification.TransactionId, OrderQueueStatus.Received);
+            var createOrderCommand = new CreateOrderCommand
+            {
+                OrderId = orderId.Value,
+                CustomerId = cart.CustomerId,
+                TransactionId = notification.TransactionId,
+                Items = cart.Items.Select(i => new OrderItemDto
+                {
+                    ProductId = i.ProductId.Value,
+                    ProductName = i.ProductName,
+                    UnitPrice = i.UnitPrice,
+                    Quantity = i.Quantity,
+                    Category = i.Category
+                }).ToList(),
+            };
 
-            await orderQueueRepository.AddAsync(orderQueue, CancellationToken.None);
+            createOrderCommandSubmittedQueue.PublishAsync(createOrderCommand, cancellationToken);
 
             await cartService.ClearCartAsync(cart.Id.Value);
         }
