@@ -1,7 +1,7 @@
 ﻿name: myfood
 
 services:
-  webapi:
+  myfood-cartspayments-webapi:
     container_name: myfood-cartspayments-webapi
     image: myfood.cartspayments.webapi
     build:
