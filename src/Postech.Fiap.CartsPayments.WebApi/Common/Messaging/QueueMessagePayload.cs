@@ -1,11 +1,13 @@
 namespace Postech.Fiap.CartsPayments.WebApi.Common.Messaging;
 
+[ExcludeFromCodeCoverage]
 public class QueueMessagePayload<T>
 {
     public T MessageContent { get; init; }
     public MessageDetails MessageDetails { get; init; }
 }
 
+[ExcludeFromCodeCoverage]
 public class MessageDetails
 {
     public string MessageId { get; set; }

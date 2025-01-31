@@ -1,5 +1,3 @@
-using Postech.Fiap.CartsPayments.WebApi.Common.ResultPattern;
-
 namespace Postech.Fiap.CartsPayments.WebApi.Common.Validation;
 
 /// <summary>
