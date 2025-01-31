@@ -12,12 +12,9 @@ public class OrderQueue
         Status = status;
     }
 
-    private OrderQueue()
-    {
-    }
 
     public OrderId Id { get; set; }
-    public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
+    public DateTime CreatedAt { get; } = DateTime.UtcNow;
     public OrderQueueStatus Status { get; set; }
     public Guid CustomerId { get; set; }
     public List<OrderItem> Items { get; set; }
@@ -31,16 +28,21 @@ public class OrderQueue
         return new OrderQueue(orderId, customerCpf, orderItems, transactionId, status);
     }
 
-    public void UpdateStatus(OrderQueueStatus status)
+    public void UpdateStatus(OrderQueueStatus newStatus)
     {
-        if (status == OrderQueueStatus.Received && Status == OrderQueueStatus.Preparing)
+        Console.WriteLine($"Changing from {Status} to {newStatus}");
+
+        if (newStatus == OrderQueueStatus.Received && Status == OrderQueueStatus.Preparing)
             throw new InvalidOperationException("Cannot change status to Received when current status is Preparing");
-        if (status == OrderQueueStatus.Preparing && Status == OrderQueueStatus.Ready)
+        if (newStatus == OrderQueueStatus.Preparing && Status == OrderQueueStatus.Ready)
             throw new InvalidOperationException("Cannot change status to Preparing when current status is Ready");
-        if (status == OrderQueueStatus.Ready && Status == OrderQueueStatus.Completed)
+        if (newStatus == OrderQueueStatus.Ready && Status == OrderQueueStatus.Completed)
             throw new InvalidOperationException("Cannot change status to Ready when current status is Completed");
-        if (status == OrderQueueStatus.Completed && Status == OrderQueueStatus.Cancelled)
+        if (Status == OrderQueueStatus.Completed && newStatus == OrderQueueStatus.Cancelled)
+            throw new InvalidOperationException("Cannot change status to Cancelled when current status is Completed");
+        if (Status == OrderQueueStatus.Cancelled && newStatus == OrderQueueStatus.Completed)
             throw new InvalidOperationException("Cannot change status to Completed when current status is Cancelled");
-        Status = status;
+
+        Status = newStatus;
     }
 }

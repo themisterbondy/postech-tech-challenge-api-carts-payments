@@ -1,4 +1,3 @@
-
 using Postech.Fiap.CartsPayments.WebApi.Features.Products.Entities;
 
 namespace Postech.Fiap.CartsPayments.WebApi.Features.Orders.Entities;
@@ -15,10 +14,6 @@ public class OrderItem
         UnitPrice = unitPrice;
         Quantity = quantity;
         Category = category;
-    }
-
-    private OrderItem()
-    {
     }
 
     public OrderItemId Id { get; set; }
