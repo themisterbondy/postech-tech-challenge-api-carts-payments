@@ -9,20 +9,20 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Azure.Storage.Queues" Version="12.21.0" />
+        <PackageReference Include="Azure.Storage.Queues" Version="12.21.0"/>
         <PackageReference Include="Carter" Version="9.0.0"/>
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0"/>
         <PackageReference Include="MediatR" Version="12.4.1"/>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.1"/>
-        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.11.0" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.12.0"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.12.0"/>
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.1">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="MongoDB.Driver" Version="3.1.0"/>
-        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.3" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3"/>
+        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.3"/>
         <PackageReference Include="Quartz.AspNetCore" Version="3.13.1"/>
 
         <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0"/>
@@ -34,21 +34,21 @@
         <PackageReference Include="Serilog.Exceptions" Version="8.4.0"/>
         <PackageReference Include="Serilog.Expressions" Version="5.0.0"/>
         <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0"/>
-        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.11.0"/>
-        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.11.0"/>
-        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.10.1"/>
-        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.10.0"/>
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.11.1"/>
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.11.1"/>
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.11.0"/>
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.11.0"/>
         <PackageReference Include="OpenTelemetry.Instrumentation.EntityFrameworkCore" Version="1.0.0-beta.11"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
+        <Content Include="..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
     <ItemGroup>
-      <_ContentIncludedByDefault Remove="Features\Products\Mock\productsMock.json" />
+        <_ContentIncludedByDefault Remove="Features\Products\Mock\productsMock.json"/>
     </ItemGroup>
 
 </Project>
