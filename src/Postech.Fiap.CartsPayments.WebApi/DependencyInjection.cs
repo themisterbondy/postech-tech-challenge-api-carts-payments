@@ -14,7 +14,7 @@ using Postech.Fiap.CartsPayments.WebApi.Common.Messaging;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Jobs;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Repositories;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Services;
-using Postech.Fiap.CartsPayments.WebApi.Features.Messaging.Queues;
+using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Messaging.Queues;
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Services;
 using Postech.Fiap.CartsPayments.WebApi.Features.Products.Services;
 using Postech.Fiap.CartsPayments.WebApi.Infrastructure.Queue;
@@ -67,7 +67,7 @@ public static class DependencyInjection
         services.AddScoped(cfg => cfg.GetService<IOptions<AzureQueueSettings>>().Value);
         services.AddSingleton(x => new QueueServiceClient(storageConnectionString));
         services.AddSingleton<IQueue, AzureQueueService>();
-        services.AddSingleton<CreateOrderCommandSubmittedQueueClient>();
+        services.AddSingleton<ICreateOrderCommandSubmittedQueueClient, CreateOrderCommandSubmittedQueueClient>();
         services.AddJobs();
 
         return services;
