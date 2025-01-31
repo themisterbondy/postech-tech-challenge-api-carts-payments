@@ -45,7 +45,6 @@ public class CartRepository(ApplicationDbContext context) : ICartRepository
                     .SetProperty(p => p.PaymentStatus, cart.PaymentStatus)
                     .SetProperty(p => p.TransactionId, cart.TransactionId)
             );
-
     }
 
     public async Task UpdateAsync(Cart cart)

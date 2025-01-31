@@ -15,7 +15,7 @@ public class Cart
     public CartId Id { get; init; }
     public Guid CustomerId { get; set; }
     public DateTime CreatedAt { get; set; }
-    public List<CartItem> Items { get; init; } = [];
+    public List<CartItem> Items { get; } = [];
     public PaymentStatus PaymentStatus { get; set; }
     public string? TransactionId { get; set; }
 

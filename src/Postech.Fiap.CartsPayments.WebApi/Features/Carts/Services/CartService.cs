@@ -51,7 +51,7 @@ public class CartService(ICartRepository cartRepository) : ICartService
                 ProductName = i.ProductName,
                 UnitPrice = i.UnitPrice,
                 Quantity = i.Quantity,
-                Category =  i.Category
+                Category = i.Category
             }).ToList()
         };
     }
@@ -78,27 +78,13 @@ public class CartService(ICartRepository cartRepository) : ICartService
     public async Task<CartResponse> RemoveFromCartAsync(Guid customerId, Guid productId)
     {
         var cart = await cartRepository.GetByCustomerIdAsync(customerId);
-        if (cart == null) return null;
 
-        var item = cart.Items.Find(i => i.ProductId == new ProductId(productId));
-        if (item != null)
-        {
-            cart.RemoveItem(item.Id);
-            await cartRepository.UpdateAsync(cart);
-        }
+        var item = cart?.Items.Find(i => i.ProductId == new ProductId(productId));
+        if (item == null) return null;
+        cart.RemoveItem(item.Id);
+        await cartRepository.UpdateAsync(cart);
 
-        return new CartResponse
-        {
-            CartId = cart.Id.Value,
-            CustomerId = cart.CustomerId,
-            Items = cart.Items.Select(i => new CartItemDto
-            {
-                ProductId = i.ProductId.Value,
-                ProductName = i.ProductName,
-                UnitPrice = i.UnitPrice,
-                Quantity = i.Quantity
-            }).ToList()
-        };
+        return null;
     }
 
     public async Task<CartResponse> ClearCartAsync(Guid cartId)
@@ -109,17 +95,6 @@ public class CartService(ICartRepository cartRepository) : ICartService
         cart.Items.Clear();
         await cartRepository.Delete(cart);
 
-        return new CartResponse
-        {
-            CartId = cart.Id.Value,
-            CustomerId = cart.CustomerId,
-            Items = cart.Items.Select(i => new CartItemDto
-            {
-                ProductId = i.ProductId.Value,
-                ProductName = i.ProductName,
-                UnitPrice = i.UnitPrice,
-                Quantity = i.Quantity
-            }).ToList()
-        };
+        return null;
     }
 }

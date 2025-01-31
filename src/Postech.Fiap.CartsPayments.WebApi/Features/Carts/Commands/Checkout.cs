@@ -1,5 +1,4 @@
 using FluentValidation;
-using Postech.Fiap.CartsPayments.WebApi.Common.Validation;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Entities;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Repositories;
 using Postech.Fiap.CartsPayments.WebApi.Features.Orders.Contracts;
@@ -8,16 +7,16 @@ using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Services;
 
 namespace Postech.Fiap.CartsPayments.WebApi.Features.Carts.Commands;
 
-public class Checkout
+public abstract class Checkout
 {
     public class Command : IRequest<Result<CheckoutResponse>>
     {
         public Guid CartId { get; init; }
     }
 
-    public class FakeCheckoutValidator : AbstractValidator<Command>
+    public class Validator : AbstractValidator<Command>
     {
-        public FakeCheckoutValidator()
+        public Validator()
         {
             RuleFor(x => x.CartId)
                 .NotEmpty().WithError(Error.Validation("CartId", "Cart Identifier is required."))
@@ -44,7 +43,7 @@ public class Checkout
             var totalAmount = cart.Items.Sum(item => item.UnitPrice * item.Quantity);
 
             var paymentInitiationResult = await paymentService.InitiatePaymentAsync(cart.Id.Value, totalAmount);
-            if (paymentInitiationResult == null)
+            if (paymentInitiationResult.IsFailure)
                 return Result.Failure<CheckoutResponse>(Error.Failure("FakeCheckout.Handler",
                     "Failed to initiate payment."));
 
