@@ -1,18 +1,18 @@
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Entities;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Repositories;
 using Postech.Fiap.CartsPayments.WebApi.Features.Carts.Services;
-using Postech.Fiap.CartsPayments.WebApi.Features.Messaging.Queues;
 using Postech.Fiap.CartsPayments.WebApi.Features.Orders.Contracts;
 using Postech.Fiap.CartsPayments.WebApi.Features.Orders.Entities;
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Contracts;
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Emun;
+using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Messaging.Queues;
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Notifications;
 
 namespace Postech.Fiap.CartsPayments.WebApi.Features.Payments.Services;
 
 public class PaymentService(
     ICartRepository cartRepository,
-    CreateOrderCommandSubmittedQueueClient createOrderCommandSubmittedQueueClient,
+    ICreateOrderCommandSubmittedQueueClient createOrderCommandSubmittedQueueClient,
     ICartService cartService) : IPaymentService
 {
     public async Task<Result<PaymentInitiationResponse>> InitiatePaymentAsync(Guid cartId, decimal amount)
@@ -65,7 +65,7 @@ public class PaymentService(
                     UnitPrice = i.UnitPrice,
                     Quantity = i.Quantity,
                     Category = i.Category
-                }).ToList(),
+                }).ToList()
             };
 
             createOrderCommandSubmittedQueueClient.PublishAsync(createOrderCommand, cancellationToken);

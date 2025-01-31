@@ -1,7 +1,7 @@
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Contracts;
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Services;
 
-namespace Postech.Fiap.CartsPayments.WebApi.Features.Payments.Querys;
+namespace Postech.Fiap.CartsPayments.WebApi.Features.Payments.Queries;
 
 public class GetPaymentStatus
 {

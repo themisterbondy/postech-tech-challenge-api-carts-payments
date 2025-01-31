@@ -1,10 +1,11 @@
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Commands;
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Contracts;
 using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Notifications;
-using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Querys;
+using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Queries;
 
 namespace Postech.Fiap.CartsPayments.WebApi.Features.Payments.Endpoints;
 
+[ExcludeFromCodeCoverage]
 public class PaymentEndpoints : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)

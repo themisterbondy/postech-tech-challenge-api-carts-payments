@@ -2,9 +2,11 @@ using Microsoft.Extensions.Options;
 using Postech.Fiap.CartsPayments.WebApi.Common.Messaging;
 using Postech.Fiap.CartsPayments.WebApi.Settings;
 
-namespace Postech.Fiap.CartsPayments.WebApi.Features.Messaging.Queues;
+namespace Postech.Fiap.CartsPayments.WebApi.Features.Payments.Messaging.Queues;
 
+[ExcludeFromCodeCoverage]
 public class CreateOrderCommandSubmittedQueueClient(IQueue queue, IOptions<AzureQueueSettings> azureQueueSettings)
+    : ICreateOrderCommandSubmittedQueueClient
 {
     private readonly AzureQueueSettings settings = azureQueueSettings.Value;
     private string QueueName => settings.CreateOrderCommand;
