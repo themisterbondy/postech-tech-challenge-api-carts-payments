@@ -10,6 +10,7 @@ using Postech.Fiap.CartsPayments.WebApi.Persistence;
 
 namespace Postech.Fiap.CartsPayments.WebApi.Persistence.Migrations
 {
+    [ExcludeFromCodeCoverage]
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {

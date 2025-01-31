@@ -5,6 +5,7 @@ using Postech.Fiap.CartsPayments.WebApi.Features.Payments.Emun;
 
 namespace Postech.Fiap.CartsPayments.WebApi.Persistence.Configurations;
 
+[ExcludeFromCodeCoverage]
 public class CartConfiguration : IEntityTypeConfiguration<Cart>
 {
     public void Configure(EntityTypeBuilder<Cart> builder)
