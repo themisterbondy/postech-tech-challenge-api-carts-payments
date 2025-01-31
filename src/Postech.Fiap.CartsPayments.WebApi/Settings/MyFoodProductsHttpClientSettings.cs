@@ -2,10 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Postech.Fiap.CartsPayments.WebApi.Settings;
 
+[ExcludeFromCodeCoverage]
 public class MyFoodProductsHttpClientSettings
 {
-    internal static string SettingsKey = "MyFoodProductsHttpClientSettings";
-    internal static string ClientName = "MyFoodProductsClient";
+    public const string SettingsKey = "MyFoodProductsHttpClientSettings";
+    public const string ClientName = "MyFoodProductsClient";
 
     [Required(ErrorMessage = "BaseUrl is required")]
     [Url(ErrorMessage = "BaseUrl must be a valid URL")]
