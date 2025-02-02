@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "carts-payments-webapi.fullname" . }}
+  labels:
+    {{- include "carts-payments-webapi.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      name: 'http'
+  selector:
+    {{- include "carts-payments-webapi.selectorLabels" . | nindent 4 }}

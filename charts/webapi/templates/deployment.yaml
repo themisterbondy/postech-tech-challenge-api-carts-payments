@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "carts-payments-webapi.fullname" . }}
+  labels:
+    {{- include "carts-payments-webapi.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "carts-payments-webapi.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "carts-payments-webapi.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 8080
+              name: http
+          env:
+            - name: ConnectionStrings__SQLConnection
+              valueFrom:
+                configMapKeyRef:
+                  name: myfood-db-carts-payments-config
+                  key: ConnectionStrings__SQLConnection
+            - name: AzureStorageSettings__ConnectionString
+              valueFrom:
+                configMapKeyRef:
+                  name: myfood-storage-account-config
+                  key: AzureStorageSettings__ConnectionString
+            - name: MyFoodProductsHttpClientSettings__BaseUrl
+              valueFrom:
+                configMapKeyRef:
+                  name: myfood-products-config
+                  key: MyFoodProductsHttpClientSettings__BaseUrl
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 60
+            timeoutSeconds: 60
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 60
+            timeoutSeconds: 60
+          resources:
+          {{- toYaml .Values.resources | nindent 12 }}
