@@ -33,7 +33,6 @@
     <ItemGroup>
         <Using Include="Xunit"/>
     </ItemGroup>
-
     <ItemGroup>
         <ProjectReference Include="..\..\src\Postech.Fiap.CartsPayments.WebApi\Postech.Fiap.CartsPayments.WebApi.csproj"/>
     </ItemGroup>

@@ -12,7 +12,7 @@ env:
 
   # Configurações do Projeto
   SOLUTION_FILE: 'Postech.Fiap.CartsPayments.sln'
-  TEST_PROJECT: 'test/Postech.Fiap.CartsPayments.WepApi.UnitTests'
+  TEST_PROJECT: 'test/Postech.Fiap.CartsPayments.WebApi.UnitTests'
   SONAR_PROJECT_KEY: 'themisterbondy_postech-tech-challenge-api-carts-payments'
 
   # Configurações do SonarCloud
