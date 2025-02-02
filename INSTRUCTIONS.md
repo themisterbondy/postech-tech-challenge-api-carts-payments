@@ -88,8 +88,13 @@ Verifique os logs de execução dos Pods com os comandos abaixo:
 
 ```sh
 kubectl logs myfood-carts-payments-webapi-64d46cb67-nkbzl --namespace myfood-namespace
+```
 
-kubectl logs myfood-carts-payments-webapi-57944c9cf-qr595 --namespace myfood-namespace
+### Remover o Deployment
+Para remover apenas o deployment do MyFood Carts & Payments WebAPI:
+
+```sh
+kubectl delete deployment myfood-carts-payments-webapi --namespace myfood-namespace
 ```
 
 ## Remover Recursos do MyFood Carts & Payments WebAPI
@@ -99,11 +104,4 @@ Para excluir o namespace e seus recursos, use:
 
 ```sh
 kubectl delete namespace myfood-namespace
-```
-
-### Remover o Deployment
-Para remover apenas o deployment do MyFood Carts & Payments WebAPI:
-
-```sh
-kubectl delete deployment myfood-carts-payments-webapi --namespace myfood-namespace
 ```
