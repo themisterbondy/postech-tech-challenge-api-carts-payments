@@ -29,7 +29,7 @@ kubectl create configmap myfood-db-carts-payments-config --namespace=myfood-name
 Crie o ConfigMap para configurar a URL base do serviço de produtos:
 
 ```sh
-kubectl create configmap myfood-products-config --namespace=myfood-namespace --from-literal=MyFoodProductsHttpClientSettings__BaseUrl="http://host.docker.internal:3350"
+kubectl create configmap myfood-products-config --namespace=myfood-namespace --from-literal=MyFoodProductsHttpClientSettings__BaseUrl="http://myfood-products-webapi:80/api"
 ```
 
 ### ConfigMap para Azure Storage Account
@@ -57,7 +57,7 @@ helm upgrade myfood-carts-payments-webapi .\charts\webapi\ --namespace myfood-na
 Para acessar a aplicação localmente, utilize o comando:
 
 ```sh
-kubectl port-forward svc/myfood-carts-payments-webapi 5011:80 -n myfood-namespace
+kubectl port-forward svc/myfood-carts-payments-webapi 60074:80 -n myfood-namespace
 ```
 
 ## Monitoramento e Depuração
