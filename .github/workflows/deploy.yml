@@ -16,7 +16,7 @@ env:
   # Configurações do Projeto
   SOLUTION_FILE: 'Postech.Fiap.CartsPayments.sln'
   TEST_PROJECT: 'test/Postech.Fiap.CartsPayments.WebApi.UnitTests'
-  DOCKERFILE_PATH: 'src/Postech.Fiap.CartsPayments'.WebApi/Dockerfile'
+  DOCKERFILE_PATH: 'src/Postech.Fiap.CartsPayments.WebApi/Dockerfile'
   DOCKER_IMAGE_NAME: 'myfood-carts-payments-webapi'
   COVERAGE_FILE: 'coverage.xml'
 
