@@ -1,0 +1,148 @@
+{
+  "products": [
+    {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "name": "Big Mac",
+      "description": "Dois hambúrgueres (100% carne bovina), alface americana, queijo processado sabor cheddar, molho especial, cebola, picles e pão com gergelim.",
+      "price": 5.99,
+      "category": "Lanche",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$kzXCTbnv/200/200/original?country=br"
+    },
+    {
+      "id": "b2c3d4e5-f678-9012-abcd-ef9876543210",
+      "name": "McChicken",
+      "description": "Filé de frango empanado, alface americana, maionese especial e pão com gergelim.",
+      "price": 4.99,
+      "category": "Lanche",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$yHxRZbnm/200/200/original?country=br"
+    },
+    {
+      "id": "c3d4e5f6-7890-1234-abcd-ef4567890123",
+      "name": "Cheeseburger",
+      "description": "Hambúrguer (100% carne bovina), queijo cheddar, ketchup, mostarda, cebola e picles.",
+      "price": 3.49,
+      "category": "Lanche",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$hJkLmbcd/200/200/original?country=br"
+    },
+    {
+      "id": "d4e5f678-9012-3456-abcd-ef7890123456",
+      "name": "Batata Média",
+      "description": "Batatas fritas crocantes e douradas, feitas com batatas selecionadas.",
+      "price": 3.99,
+      "category": "Acompanhamento",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$fRqWTvxx/200/200/original?country=br"
+    },
+    {
+      "id": "e5f67890-1234-5678-abcd-ef0123456789",
+      "name": "Nuggets 10 unidades",
+      "description": "Dez pedaços de nuggets de frango crocantes e saborosos.",
+      "price": 6.99,
+      "category": "Acompanhamento",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$xPtUVmnv/200/200/original?country=br"
+    },
+    {
+      "id": "f6789012-3456-7890-abcd-ef9876543210",
+      "name": "Refrigerante Coca-Cola",
+      "description": "Coca-Cola gelada servida em copo de 500ml.",
+      "price": 2.99,
+      "category": "Bebida",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$wRdYSbnv/200/200/original?country=br"
+    },
+    {
+      "id": "67890123-4567-8901-abcd-ef0123456789",
+      "name": "Milkshake de Chocolate",
+      "description": "Delicioso milkshake sabor chocolate com cobertura cremosa.",
+      "price": 4.49,
+      "category": "Bebida",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$qPoVSbnv/200/200/original?country=br"
+    },
+    {
+      "id": "78901234-5678-9012-abcd-ef1234567890",
+      "name": "Sundae de Morango",
+      "description": "Sorvete de baunilha com cobertura de morango e farofa de amendoim.",
+      "price": 3.99,
+      "category": "Sobremesa",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$tXoWUbcd/200/200/original?country=br"
+    },
+    {
+      "id": "89012345-6789-0123-abcd-ef2345678901",
+      "name": "Torta de Maçã",
+      "description": "Massa crocante recheada com maçã e canela.",
+      "price": 2.49,
+      "category": "Sobremesa",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$uYoWXbnv/200/200/original?country=br"
+    },
+    {
+      "id": "90123456-7890-1234-abcd-ef3456789012",
+      "name": "McFlurry Ovomaltine",
+      "description": "Sorvete de baunilha com cobertura Ovomaltine crocante.",
+      "price": 5.99,
+      "category": "Sobremesa",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$vZnXYbnv/200/200/original?country=br"
+    },
+    {
+      "id": "01234567-8901-2345-abcd-ef4567890123",
+      "name": "McNífico Bacon",
+      "description": "Hambúrguer com bacon crocante, queijo, alface, tomate e maionese especial.",
+      "price": 7.49,
+      "category": "Lanche",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$wMoXZbnv/200/200/original?country=br"
+    },
+    {
+      "id": "12345678-9012-3456-abcd-ef5678901234",
+      "name": "Coca-Cola Zero",
+      "description": "Coca-Cola Zero gelada servida em copo de 500ml.",
+      "price": 2.99,
+      "category": "Bebida",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$xNoXZbnv/200/200/original?country=br"
+    },
+    {
+      "id": "23456789-0123-4567-abcd-ef6789012345",
+      "name": "Batata Grande",
+      "description": "Porção grande de batatas fritas crocantes e douradas.",
+      "price": 4.99,
+      "category": "Acompanhamento",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$yOoYZbnv/200/200/original?country=br"
+    },
+    {
+      "id": "34567890-1234-5678-abcd-ef7890123456",
+      "name": "Água Mineral",
+      "description": "Água mineral sem gás 500ml.",
+      "price": 1.99,
+      "category": "Bebida",
+      "imageUrl": "https://cache-backend-mcd.mcdonaldscupones.com/media/image/product$zPoYZbnv/200/200/original?country=br"
+    }
+  ],
+  "customers": [
+    {
+      "id": "d3c5d567-8a2b-4bfc-b837-6d2c3b4a00a1",
+      "name": "Carlos Silva",
+      "email": "carlos.silva@example.com",
+      "cpf": "123.456.789-01"
+    },
+    {
+      "id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+      "name": "Maria Oliveira",
+      "email": "maria.oliveira@example.com",
+      "cpf": "987.654.321-00"
+    },
+    {
+      "id": "b9c8d7e6-f5a4-3210-bacd-ef9876543210",
+      "name": "João Souza",
+      "email": "joao.souza@example.com",
+      "cpf": "111.222.333-44"
+    },
+    {
+      "id": "c1d2e3f4-a5b6-7890-cdef-0123456789ab",
+      "name": "Ana Lima",
+      "email": "ana.lima@example.com",
+      "cpf": "555.666.777-88"
+    },
+    {
+      "id": "e6f7a8b9-c0d1-2345-bace-1234567890ab",
+      "name": "Pedro Santos",
+      "email": "pedro.santos@example.com",
+      "cpf": "999.888.777-66"
+    }
+  ]
+}

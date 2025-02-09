@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5E0CC31B-7194-4405-AC4D-1862744B7FEA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{94D3430B-352A-421F-84A5-C1851DE87823}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postech.Fiap.CartsPayments.WebApi", "src\Postech.Fiap.CartsPayments.WebApi\Postech.Fiap.CartsPayments.WebApi.csproj", "{E632185B-8985-42F0-815D-3810985FA36C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7E10260E-2736-436A-BBFE-DB307494BFA3}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yaml = docker-compose.yaml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postech.Fiap.CartsPayments.WebApi.UnitTests", "test\Postech.Fiap.CartsPayments.WebApi.UnitTests\Postech.Fiap.CartsPayments.WebApi.UnitTests.csproj", "{66772B02-BFB9-4956-84A6-2C9A5943A122}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CI/CD", "CI/CD", "{A8E30A47-4ACD-48AE-AAC3-1AD5D806E9DA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Github", "Github", "{B5B6F91E-77DF-4B40-8388-B7BFC2656B52}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\dotnet-build-test-sonar.yml = .github\workflows\dotnet-build-test-sonar.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E632185B-8985-42F0-815D-3810985FA36C} = {5E0CC31B-7194-4405-AC4D-1862744B7FEA}
+		{66772B02-BFB9-4956-84A6-2C9A5943A122} = {94D3430B-352A-421F-84A5-C1851DE87823}
+		{A8E30A47-4ACD-48AE-AAC3-1AD5D806E9DA} = {7E10260E-2736-436A-BBFE-DB307494BFA3}
+		{B5B6F91E-77DF-4B40-8388-B7BFC2656B52} = {A8E30A47-4ACD-48AE-AAC3-1AD5D806E9DA}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E632185B-8985-42F0-815D-3810985FA36C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E632185B-8985-42F0-815D-3810985FA36C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E632185B-8985-42F0-815D-3810985FA36C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E632185B-8985-42F0-815D-3810985FA36C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66772B02-BFB9-4956-84A6-2C9A5943A122}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66772B02-BFB9-4956-84A6-2C9A5943A122}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66772B02-BFB9-4956-84A6-2C9A5943A122}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66772B02-BFB9-4956-84A6-2C9A5943A122}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
