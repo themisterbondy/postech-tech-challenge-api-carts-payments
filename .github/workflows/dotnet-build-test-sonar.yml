@@ -3,7 +3,9 @@ name: CI - Build, Test, SonarCloud
 on:
   push:
     branches:
-      '**'
+      - 'feature/**'
+      - 'develop'
+      - 'main'
 
 permissions:
   contents: read
@@ -81,3 +83,22 @@ jobs:
             -Dsonar.tests=test/
             -Dsonar.test.exclusions="test/**"
             -Dsonar.verbose=true
+
+      - name: 🔍 Verificar se o arquivo de análise existe
+        id: check_report
+        run: |
+          if [ -f ".sonarqube/out/.sonar/report-task.txt" ]; then
+            echo "exists=true" >> $GITHUB_ENV
+          else
+            echo "exists=false" >> $GITHUB_ENV
+          fi
+
+      - name: 🚦 Verificar Quality Gate no SonarCloud
+        if: env.exists == 'true'
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        with:
+          pollingTimeoutSec: 600
+          scanMetadataReportFile: .sonarqube/out/.sonar/report-task.txt
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}
