@@ -1,0 +1,104 @@
+name: CI - Build, Test, SonarCloud
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+      - 'develop'
+      - 'main'
+
+permissions:
+  contents: read
+
+env:
+
+  # Configurações do Projeto
+  SOLUTION_FILE: 'Postech.Fiap.CartsPayments.sln'
+  TEST_PROJECT: 'test/Postech.Fiap.CartsPayments.WebApi.UnitTests'
+  SONAR_PROJECT_KEY: 'themisterbondy_postech-tech-challenge-api-carts-payments'
+
+  # Configurações do SonarCloud
+  DOTNET_VERSION: '9.0.x'
+  SONAR_ORG: 'themisterbondy'
+  SONAR_HOST_URL: 'https://sonarcloud.io'
+  COVERAGE_FILE: 'coverage.xml'
+
+
+jobs:
+  build-and-test:
+    name: Build, Test & SonarCloud Analysis
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛎️ Checkout código
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🔧 Instalar .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: 📥 Instalar SonarScanner e dotnet-coverage
+        run: |
+          dotnet tool install --global dotnet-sonarscanner
+          dotnet tool install --global dotnet-coverage
+
+      - name: 🔧 Configurar PATH para Ferramentas Globais
+        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+      - name: 🚀 Restaurar dependências
+        run: dotnet restore ${{ env.SOLUTION_FILE }}
+
+      - name: 🔨 Compilar solução
+        run: dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
+
+      - name: 🧪 Rodar testes e coletar cobertura
+        run: |
+          dotnet sonarscanner begin \
+            /k:"${{ env.SONAR_PROJECT_KEY }}" \
+            /o:"${{ env.SONAR_ORG }}" \
+            /d:sonar.host.url="${{ env.SONAR_HOST_URL }}" \
+            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
+            /d:sonar.cs.vscoveragexml.reportsPaths="${{ env.COVERAGE_FILE }}"
+
+          dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
+
+          dotnet-coverage collect "dotnet test ${{ env.TEST_PROJECT }} --configuration Release" \
+            -f xml -o "${{ env.COVERAGE_FILE }}"
+
+          dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
+      - name: 🚦 Verificar qualidade do código no SonarCloud
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.organization=${{ env.SONAR_ORG }}
+            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
+            -Dsonar.cs.vscoveragexml.reportsPaths=${{ env.COVERAGE_FILE }}
+            -Dsonar.sources=src/
+            -Dsonar.tests=test/
+            -Dsonar.test.exclusions="test/**"
+            -Dsonar.verbose=true
+
+      - name: 🔍 Verificar se o arquivo de análise existe
+        id: check_report
+        run: |
+          if [ -f ".sonarqube/out/.sonar/report-task.txt" ]; then
+            echo "exists=true" >> $GITHUB_ENV
+          else
+            echo "exists=false" >> $GITHUB_ENV
+          fi
+
+      - name: 🚦 Verificar Quality Gate no SonarCloud
+        if: env.exists == 'true'
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        with:
+          pollingTimeoutSec: 600
+          scanMetadataReportFile: .sonarqube/out/.sonar/report-task.txt
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}
